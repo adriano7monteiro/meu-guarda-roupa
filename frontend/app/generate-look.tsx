@@ -1,27 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-  ScrollView,
-  Platform,
-  Image,
-  Modal,
-  Dimensions,
-  ActivityIndicator,
-  TextInput,
-  KeyboardAvoidingView,
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from 'expo-router';
-import { useModal } from '../hooks/useModal';
-import CustomModal from '../components/CustomModal';
-import * as Sharing from 'expo-sharing';
 import * as Linking from 'expo-linking';
+import { router } from 'expo-router';
+import * as Sharing from 'expo-sharing';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  Modal,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
+import CustomModal from '../components/CustomModal';
+import { useModal } from '../hooks/useModal';
 
 const OCCASIONS = [
   { id: 'trabalho', label: 'Trabalho', icon: 'briefcase' as const },
@@ -544,7 +543,7 @@ export default function GenerateLook() {
                         style={styles.tryonImage}
                         resizeMode="cover"
                         onLoad={() => console.log('Try-on image loaded successfully')}
-                        onError={(error) => console.log('Try-on image load error:', error)}
+                       
                       />
                       <View style={styles.imageOverlay}>
                         <Text style={styles.imageOverlayText}>

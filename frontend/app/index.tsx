@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-  ScrollView,
-  Platform,
-  TextInput
-} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
-import { useModal } from '../hooks/useModal';
+import React, { useEffect, useState } from 'react';
+import {
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import CustomModal from '../components/CustomModal';
+import { useModal } from '../hooks/useModal';
 
 interface User {
   email: string;
@@ -67,7 +67,7 @@ export default function Index() {
         await fetchSubscriptionStatus(token);
       }
     } catch (error) {
-      console.error('Error checking auth status:', error);
+      
     } finally {
       setLoading(false);
     }
@@ -91,13 +91,13 @@ export default function Index() {
         await AsyncStorage.removeItem('auth_token');
       }
     } catch (error) {
-      console.error('Error fetching user profile:', error);
+      
     }
   };
 
   const fetchSubscriptionStatus = async (token: string) => {
     try {
-      console.log('Fetching subscription status...');
+      
       const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/api/status-assinatura`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -106,13 +106,13 @@ export default function Index() {
 
       if (response.ok) {
         const statusData = await response.json();
-        console.log('Subscription status received:', statusData);
+       
         setSubscriptionStatus(statusData);
       } else {
-        console.error('Failed to fetch subscription status:', response.status);
+        
       }
     } catch (error) {
-      console.error('Error fetching subscription status:', error);
+      
     }
   };
 
@@ -122,7 +122,7 @@ export default function Index() {
       setUser(null);
       modal.showSuccess('Sucesso', 'Logout realizado com sucesso!');
     } catch (error) {
-      console.error('Error during logout:', error);
+      
     }
   };
 
@@ -336,7 +336,7 @@ function AuthScreen({ onLogin }: { onLogin: (user: User) => void }) {
         ? { email, password }
         : { email, password, nome, ocasiao_preferida: 'casual' };
 
-      console.log('Auth request:', endpoint, body);
+      
 
       const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}${endpoint}`, {
         method: 'POST',
@@ -346,20 +346,19 @@ function AuthScreen({ onLogin }: { onLogin: (user: User) => void }) {
         body: JSON.stringify(body),
       });
 
-      console.log('Auth response status:', response.status);
-      console.log('Auth response content-type:', response.headers.get('content-type'));
+     
 
       // Check if response is JSON before parsing
       const contentType = response.headers.get('content-type');
       if (!contentType || !contentType.includes('application/json')) {
         const text = await response.text();
-        console.error('Non-JSON response:', text);
+       
         authModal.showError('Erro de Servidor', 'Resposta inválida do servidor. Tente novamente.');
         return;
       }
 
       const data = await response.json();
-      console.log('Auth response data:', data);
+     
 
       if (response.ok) {
         await AsyncStorage.setItem('auth_token', data.token);
@@ -369,7 +368,7 @@ function AuthScreen({ onLogin }: { onLogin: (user: User) => void }) {
         authModal.showError('Erro de Autenticação', data.detail || 'Erro durante autenticação');
       }
     } catch (error) {
-      console.error('Auth error:', error);
+    
       if (error instanceof SyntaxError) {
         authModal.showError('Erro de Formato', 'Resposta inválida do servidor (JSON Parse Error)');
       } else {
